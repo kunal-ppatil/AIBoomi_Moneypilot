@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a2e;
+            color: white;
+        }
+
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #2563eb;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #16213e;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+
+        .success {
+            color: #10b981;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🧪 Gemini API Test</h1>
+    <p>This will test if the Gemini API is working correctly.</p>
+
+    <button onclick="testAPI()">Test Gemini API</button>
+
+    <div id="result"></div>
+
+    <script type="module">
+        import { config } from './src/config/env.js';
+
+        window.testAPI = async function () {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Testing API...';
+
+            const API_KEY = config.gemini.apiKey;
+            const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+
+            console.log('API Key:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'MISSING');
+            console.log('API URL:', API_URL);
+
+            try {
+                const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: 'Say "Hello! The API is working!" in a friendly way.'
+                            }]
+                        }]
+                    })
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                if (!response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <h3>❌ API Error</h3>
+                            <p><strong>Status:</strong> ${response.status}</p>
+                            <p><strong>Error:</strong> ${data.error?.message || JSON.stringify(data)}</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const text = data.candidates[0].content.parts[0].text;
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h3>✅ API Working!</h3>
+                        <p><strong>Response:</strong> ${text}</p>
+                        <hr>
+                        <p><strong>Full Response:</strong></p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Network Error</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Type:</strong> ${error.name}</p>
+                        <hr>
+                        <p>Possible causes:</p>
+                        <ul>
+                            <li>No internet connection</li>
+                            <li>CORS issue (unlikely with Gemini API)</li>
+                            <li>API key invalid or expired</li>
+                            <li>API quota exceeded</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+
+</html>

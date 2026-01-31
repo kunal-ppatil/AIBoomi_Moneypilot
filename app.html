@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyPilot - Plan Your Future</title>
+    <link rel="stylesheet" href="./src/styles/main.css">
+    <link rel="stylesheet" href="./src/styles/hero.css">
+    <link rel="stylesheet" href="./src/styles/wizard.css">
+    <link rel="stylesheet" href="./src/styles/results.css">
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <header class="app-header">
+        <div class="logo-container" onclick="window.location.href='/'">
+            <svg viewBox="0 0 200 200" class="logo-svg" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="85" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.3"
+                    stroke-dasharray="4 4" />
+                <path d="M 100 40 L 105 60 L 100 65 L 95 60 Z" fill="#ffffff" />
+                <path d="M 80 70 Q 100 60, 120 70 Q 130 80, 120 90 L 80 90 Q 70 80, 80 70" fill="none" stroke="#ffffff"
+                    stroke-width="3" stroke-linecap="round" />
+                <path d="M 120 110 Q 100 120, 80 110 Q 70 100, 80 90 L 120 90 Q 130 100, 120 110" fill="none"
+                    stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+                <path d="M 100 160 L 95 140 L 100 135 L 105 140 Z" fill="#ffffff" />
+                <line x1="100" y1="50" x2="100" y2="150" stroke="#ffffff" stroke-width="2" />
+                <path d="M 140 100 L 130 95 L 125 100 L 130 105 Z" fill="#a1a1aa" />
+                <path d="M 60 100 L 70 105 L 75 100 L 70 95 Z" fill="#a1a1aa" />
+                <circle cx="100" cy="100" r="8" fill="none" stroke="#ffffff" stroke-width="2" />
+                <circle cx="100" cy="100" r="3" fill="#ffffff" />
+            </svg>
+            <div class="logo-text-stack">
+                <span class="logo-text-top">Money</span>
+                <span class="logo-text-bottom">Pilot</span>
+            </div>
+        </div>
+        <div class="auth-nav">
+            <button class="theme-toggle" id="theme-btn">☀</button>
+            <button class="btn btn-text" id="logout-btn">Log Out</button>
+        </div>
+    </header>
+
+    <main class="app-container" style="padding-top: 100px;">
+        <!-- Wizard/Results Injected Here -->
+    </main>
+
+    <script type="module" src="./src/app.js"></script>
+</body>
+
+</html>
